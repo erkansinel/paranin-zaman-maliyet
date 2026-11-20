@@ -30,6 +30,9 @@ from .common import not_found, ok, parse_date, parse_method
 
 router = APIRouter(prefix="/api/firmalar/{company_id}", tags=["portföy"])
 
+#: Raporlarda görünen hazırlayan kurum.
+HAZIRLAYAN = "Decisora Danışmanlık A.Ş."
+
 DURUMLAR = {"portfoyde": "Portföyde", "tahsil_edildi": "Tahsil edildi", "iade": "İade / karşılıksız"}
 
 
@@ -195,6 +198,7 @@ def export_csv(company_id: int, tarih: Optional[str] = None, user: User = Depend
     docs = db.query(Document).filter(Document.company_id == company_id).order_by(Document.maturity_date).all()
     buf = io.StringIO()
     w = csv.writer(buf, delimiter=";")
+    w.writerow(["Hazırlayan", HAZIRLAYAN, "Paranın Zaman Maliyeti"])
     w.writerow(["Firma", company.name, "Değerleme tarihi", asof.strftime("%d.%m.%Y")])
     w.writerow([])
     w.writerow(["Evrak No", "Tür", "Müşteri/Firma", "Durum", "Nominal (TL)", "Düzenleme", "Vade",

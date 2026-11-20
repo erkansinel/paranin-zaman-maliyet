@@ -163,6 +163,7 @@ def test_firma_ayrimi_ve_portfoy(admin):
     assert r.status_code == 200
     text = r.content.decode("utf-8-sig")
     assert "801522,67" in text and "C-002" in text
+    assert "Decisora Danışmanlık A.Ş." in text
 
 
 def test_cikis(admin):

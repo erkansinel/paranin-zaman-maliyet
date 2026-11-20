@@ -17,27 +17,31 @@
 }
 
 :root {
-  --bg: #f3f5fa;
-  --bg-grad: radial-gradient(1200px 600px at 100% -10%, #e3e9ff 0%, transparent 60%),
-             radial-gradient(900px 500px at -10% 110%, #dff7ef 0%, transparent 55%), #f3f5fa;
+  /* Decisora kurumsal renkleri: lacivert #404f6c, mint #9fdccd */
+  --brand-navy: #404f6c;
+  --brand-navy-deep: #222b40;
+  --brand-mint: #9fdccd;
+  --bg: #f3f5f8;
+  --bg-grad: radial-gradient(1200px 600px at 100% -10%, #e2e8f2 0%, transparent 60%),
+             radial-gradient(900px 500px at -10% 110%, #e1f4ef 0%, transparent 55%), #f3f5f8;
   --surface: #ffffff;
   --surface-2: #f7f8fc;
   --border: #e5e8f0;
   --text: #0f172a;
   --muted: #64748b;
   --faint: #94a3b8;
-  --primary: #4f46e5;
-  --primary-2: #6366f1;
-  --primary-soft: #eef0ff;
-  --value: #059669;
-  --value-soft: #e7f8f1;
+  --primary: #404f6c;
+  --primary-2: #5f7396;
+  --primary-soft: #edf0f6;
+  --value: #1f9580;
+  --value-soft: #e3f5f0;
   --cost: #e11d48;
   --cost-soft: #fdecf0;
   --warn: #d97706;
   --warn-soft: #fef5e6;
-  --side-bg: linear-gradient(180deg, #0b1023 0%, #141a3a 100%);
-  --side-text: #c7cbe0;
-  --side-active: rgba(99, 102, 241, 0.18);
+  --side-bg: linear-gradient(180deg, #1b2235 0%, #2a3550 100%);
+  --side-text: #c9d1e2;
+  --side-active: rgba(159, 220, 205, 0.14);
   --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
   --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.18);
   --radius: 16px;
@@ -46,27 +50,27 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #0a0e1c;
-  --bg-grad: radial-gradient(1200px 600px at 100% -10%, #1b2150 0%, transparent 60%),
-             radial-gradient(900px 500px at -10% 110%, #0d2a26 0%, transparent 55%), #0a0e1c;
-  --surface: #121731;
-  --surface-2: #171d3b;
-  --border: #252c52;
+  --bg: #0c111c;
+  --bg-grad: radial-gradient(1200px 600px at 100% -10%, #1c2740 0%, transparent 60%),
+             radial-gradient(900px 500px at -10% 110%, #11302b 0%, transparent 55%), #0c111c;
+  --surface: #141b2b;
+  --surface-2: #1a2236;
+  --border: #283350;
   --text: #e6e9f5;
   --muted: #9aa3c4;
   --faint: #6b7499;
-  --primary: #818cf8;
-  --primary-2: #a5b4fc;
-  --primary-soft: rgba(129, 140, 248, 0.14);
-  --value: #34d399;
-  --value-soft: rgba(52, 211, 153, 0.12);
+  --primary: #9fdccd;
+  --primary-2: #c3ebe1;
+  --primary-soft: rgba(159, 220, 205, 0.13);
+  --value: #6fd3bb;
+  --value-soft: rgba(111, 211, 187, 0.12);
   --cost: #fb7185;
   --cost-soft: rgba(251, 113, 133, 0.12);
   --warn: #fbbf24;
   --warn-soft: rgba(251, 191, 36, 0.12);
-  --side-bg: linear-gradient(180deg, #070a17 0%, #0e1330 100%);
+  --side-bg: linear-gradient(180deg, #090d17 0%, #141c2e 100%);
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
-  --chart-grid: #222a4d;
+  --chart-grid: #232d47;
   color-scheme: dark;
 }
 
@@ -118,11 +122,11 @@ h1, h2, h3, h4 { margin: 0; letter-spacing: -0.02em; }
   border: 0; background: none; width: 100%; text-align: left; font: inherit;
 }
 .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
-.nav-item.active { background: var(--side-active); color: #fff; box-shadow: inset 2px 0 0 #818cf8; }
+.nav-item.active { background: var(--side-active); color: #fff; box-shadow: inset 2px 0 0 var(--brand-mint); }
 .nav-item svg { width: 18px; height: 18px; flex: none; opacity: 0.9; }
 .side-foot { margin-top: auto; padding: 12px; font-size: 12px; color: #6b7299; }
 .side-user { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.04); }
-.avatar { width: 32px; height: 32px; border-radius: 50%; background: #2a3166; color: #c7d2fe; display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: #3a4766; color: #d8f2eb; display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none; }
 
 .main { min-width: 0; display: flex; flex-direction: column; }
 .topbar {
@@ -159,26 +163,26 @@ h1, h2, h3, h4 { margin: 0; letter-spacing: -0.02em; }
 .kpi .val { font-size: 26px; font-weight: 750; letter-spacing: -0.03em; margin-top: 6px; }
 .kpi .foot { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .kpi .dot { width: 8px; height: 8px; border-radius: 50%; }
-.kpi.accent { background: linear-gradient(135deg, #4f46e5, #7c3aed 60%, #0ea5e9); color: #fff; border: 0; }
+.kpi.accent { background: linear-gradient(135deg, #2c3854 0%, #404f6c 45%, #5d9b98 100%); color: #fff; border: 0; }
 .kpi.accent .label, .kpi.accent .foot { color: rgba(255,255,255,0.78); }
 
 .hero-value {
   border-radius: var(--radius); padding: 26px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+  background: linear-gradient(135deg, #1b2235 0%, #2c3854 55%, #404f6c 100%);
   color: #fff; position: relative; overflow: hidden;
 }
 .hero-value::after {
   content: ""; position: absolute; right: -80px; top: -80px; width: 260px; height: 260px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(52,211,153,0.35), transparent 65%);
+  background: radial-gradient(circle, rgba(159,220,205,0.38), transparent 65%);
 }
-.hero-value .label { color: #a5b4fc; font-size: 13px; font-weight: 500; }
+.hero-value .label { color: var(--brand-mint); font-size: 13px; font-weight: 500; }
 .hero-value .big { font-size: 40px; font-weight: 800; letter-spacing: -0.035em; margin: 4px 0 8px; }
 .hero-value .chips { display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
 .chip {
   display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
   font-size: 12px; font-weight: 600; background: var(--primary-soft); color: var(--primary);
 }
-.hero-value .chip { background: rgba(255,255,255,0.1); color: #e0e7ff; }
+.hero-value .chip { background: rgba(255,255,255,0.1); color: #e6ecf5; }
 .chip.value { background: var(--value-soft); color: var(--value); }
 .chip.cost { background: var(--cost-soft); color: var(--cost); }
 .chip.warn { background: var(--warn-soft); color: var(--warn); }
@@ -229,8 +233,9 @@ h1, h2, h3, h4 { margin: 0; letter-spacing: -0.02em; }
 }
 .btn:active { transform: translateY(1px); }
 .btn svg { width: 16px; height: 16px; }
-.btn-primary { background: linear-gradient(135deg, var(--primary), #7c3aed); color: #fff; box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35); }
-.btn-primary:hover { box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45); }
+.btn-primary { background: linear-gradient(135deg, #404f6c, #4f7f8a); color: #fff; box-shadow: 0 6px 18px rgba(64, 79, 108, 0.32); }
+.btn-primary:hover { box-shadow: 0 8px 24px rgba(64, 79, 108, 0.45); }
+:root[data-theme="dark"] .btn-primary { background: linear-gradient(135deg, #9fdccd, #7cc3c9); color: #10192b; box-shadow: 0 6px 18px rgba(159, 220, 205, 0.2); }
 .btn-ghost { background: var(--surface); border-color: var(--border); color: var(--text); }
 .btn-ghost:hover { border-color: var(--primary-2); color: var(--primary); }
 .btn-danger { background: var(--cost-soft); color: var(--cost); }
@@ -257,7 +262,7 @@ table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 
 
 .bar-cell { position: relative; min-width: 70px; width: 22%; }
 .bar-bg { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #34d399, #059669); }
+.bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #9fdccd, #1f9580); }
 .split-bar { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: var(--surface-2); }
 .split-bar > div { height: 100%; }
 
@@ -274,6 +279,22 @@ table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 
 .verdict.vadeli .badge { background: var(--primary); }
 .verdict.esit .badge { background: var(--muted); }
 .verdict h3 { font-size: 18px; margin-bottom: 6px; }
+
+/* Decisora logosu */
+.decisora { display: flex; align-items: center; gap: 12px; }
+.decisora-emblem { width: 44px; height: 44px; border-radius: 50%; flex: none; background: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.18); }
+.decisora-emblem.sm { width: 38px; height: 38px; }
+.wordmark { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: var(--brand-navy); }
+.wordmark span { color: #7ccbb9; }
+.wordmark-sub { font-size: 10.5px; letter-spacing: 0.22em; color: var(--muted); margin-top: 5px; font-weight: 500; }
+.decisora.on-dark .wordmark { color: #e8edf6; }
+.decisora.on-dark .wordmark span { color: var(--brand-mint); }
+.decisora.on-dark .wordmark-sub { color: #aeb8cc; }
+:root[data-theme="dark"] .wordmark { color: #e8edf6; }
+:root[data-theme="dark"] .wordmark span { color: var(--brand-mint); }
+.report-logo .decisora-emblem { width: 52px; height: 52px; box-shadow: none; }
+.app-kicker { color: var(--brand-mint); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
 
 /* Ana sayfa kutucukları */
 .tile {
@@ -303,13 +324,13 @@ table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 
 /* Giriş */
 .auth { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 1fr; }
 .auth-art {
-  background: linear-gradient(160deg, #0b1023 0%, #1e1b4b 50%, #312e81 100%);
+  background: linear-gradient(160deg, #161c2c 0%, #26304a 50%, #404f6c 100%);
   color: #fff; padding: 56px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;
 }
-.auth-art::before { content: ""; position: absolute; width: 520px; height: 520px; right: -160px; bottom: -160px; border-radius: 50%; background: radial-gradient(circle, rgba(52,211,153,0.35), transparent 60%); }
+.auth-art::before { content: ""; position: absolute; width: 520px; height: 520px; right: -160px; bottom: -160px; border-radius: 50%; background: radial-gradient(circle, rgba(159,220,205,0.35), transparent 60%); }
 .auth-art h2 { font-size: 40px; line-height: 1.1; letter-spacing: -0.035em; max-width: 520px; }
-.auth-art p { color: #c7d2fe; max-width: 460px; font-size: 15px; }
-.formula { font-family: ui-monospace, "SF Mono", Menlo, monospace; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); padding: 14px 16px; border-radius: 12px; font-size: 14px; color: #e0e7ff; display: inline-block; }
+.auth-art p { color: #cfd8e8; max-width: 460px; font-size: 15px; }
+.formula { font-family: ui-monospace, "SF Mono", Menlo, monospace; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); padding: 14px 16px; border-radius: 12px; font-size: 14px; color: #e6ecf5; display: inline-block; }
 .auth-form { display: grid; place-items: center; padding: 32px; }
 .auth-form .card { width: min(420px, 100%); padding: 32px; }
 
@@ -320,7 +341,7 @@ table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 
 .rate-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .rate-chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 6px 6px 12px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); font-weight: 700; font-size: 13px; }
 .rate-chip button { border: 0; background: none; color: inherit; cursor: pointer; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; }
-.rate-chip button:hover { background: rgba(79,70,229,.15); }
+.rate-chip button:hover { background: rgba(64,79,108,.15); }
 
 .print-only { display: none; }
 
@@ -367,5 +388,11 @@ table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 
   body { background: #fff; color: #000; }
   .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }
   .print-only { display: block; }
+  .wordmark { color: #404f6c !important; }
+  .wordmark span { color: #5fb8a3 !important; }
   .chart-box { height: 240px; }
 }
+
+/* Giriş ekranında logo biraz daha büyük */
+.decisora.on-dark .decisora-emblem { width: 58px; height: 58px; }
+.decisora.on-dark .wordmark { font-size: 30px; }

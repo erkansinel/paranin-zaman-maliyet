@@ -1,6 +1,9 @@
+<p align="center"><img src="docs/ekranlar/decisora-logo.png" alt="Decisora Danışmanlık A.Ş." width="360"></p>
+
 # Paranın Zaman Maliyeti
 
-**Vadeli çek ve senet değerleme · Finansal karar destek sistemi**
+**Vadeli çek ve senet değerleme · Finansal karar destek sistemi**  
+Geliştiren ve sahibi: **Decisora Danışmanlık A.Ş.**
 
 > Gelecekte tahsil edeceğim belirli bir tutar, bugünün parasıyla gerçekte kaç TL değerindedir?
 

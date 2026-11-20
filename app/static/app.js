@@ -411,7 +411,7 @@ document.addEventListener("alpine:init", () => {
         type: "doughnut",
         data: { labels: b.map((x) => x.etiket),
           datasets: [{ data: b.map((x) => Number(x.nominal)), borderWidth: 0,
-            backgroundColor: ["#e11d48", "#f59e0b", "#10b981", "#06b6d4", "#6366f1", "#8b5cf6"] }] },
+            backgroundColor: ["#e11d48", "#f59e0b", "#9fdccd", "#4fa9a0", "#6f83a8", "#404f6c"] }] },
         options: { cutout: "68%", plugins: { legend: { position: "right" }, tooltip: { callbacks: { label: (c) => ` ${c.label}: ${fmtTL(c.parsed)}` } } } },
       });
     },
