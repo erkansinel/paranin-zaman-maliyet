@@ -30,6 +30,10 @@ ekonomik değerleriyle görmesini ve buna göre karar vermesini sağlar.
 
 ## Hızlı başlangıç
 
+**Windows (kurulumsuz):** `ParaninZamanMaliyeti-Windows.zip` dosyasını bir klasöre çıkarın ve **Baslat.bat**'a çift tıklayın. Ayrıntılar: [docs/06-kurulum-ve-yayin.md](docs/06-kurulum-ve-yayin.md#61-windows-çift-tıkla-çalışan-paket-önerilen)
+
+**Kaynak koddan:**
+
 ```bash
 pip install -r requirements.txt
 python -m app.demo            # isteğe bağlı örnek veri (demo / demo1234)
