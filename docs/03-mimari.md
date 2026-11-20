@@ -103,7 +103,17 @@ oturum (token_hash, user_id, expires_at)
   hesabını yalnızca bu anahtarı bilen oluşturabilir.
 * Rol kontrolü: firma ve kullanıcı ekleme/silme yalnızca yöneticidedir.
 
-## 3.6 Klasör yapısı
+## 3.6 Kurumsal kimlik
+
+Uygulama **Decisora Danışmanlık A.Ş.** kimliğiyle yayınlanır. Logo amblemi
+`app/static/brand/` klasöründedir (şeffaf PNG, favicon dahil). Kurum adı
+giriş ekranında, yan menüde, rapor başlığında, yazdırma / PDF çıktısında ve
+CSV dosyasının ilk satırında yer alır (CSV için `app/api/documents.py`
+içindeki `HAZIRLAYAN` sabiti). Tema renkleri logodan alınmıştır:
+lacivert `#404f6c` ve mint `#9fdccd` (`app/static/styles.css` başındaki
+`--brand-*` değişkenleri).
+
+## 3.7 Klasör yapısı
 
 ```
 app/
@@ -122,7 +132,7 @@ docs/             Bu dokümantasyon
 Dockerfile, render.yaml   Sunucuya kurulum
 ```
 
-## 3.7 Genişletilebilirlik
+## 3.8 Genişletilebilirlik
 
 Gelecekteki özelliklerin bu mimaride nereye oturacağı
 [07-yol-haritasi.md](07-yol-haritasi.md) dosyasında açıklanmıştır.

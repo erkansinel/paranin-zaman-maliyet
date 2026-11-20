@@ -1,6 +1,31 @@
 # 6. Kurulum ve Yayına Alma
 
-## 6.1 Kendi bilgisayarında çalıştırma
+## 6.1 Windows: çift tıkla çalışan paket (önerilen)
+
+Kurulum ve Python gerektirmez.
+
+1. `ParaninZamanMaliyeti-Windows.zip` dosyasını indirin.
+2. Zip'e sağ tıklayın → **Tümünü ayıkla** → bir klasöre çıkarın (ör. Belgeler).
+   Zip'in içinden doğrudan çalıştırmayın.
+3. Çıkan klasördeki **Baslat.bat** dosyasına çift tıklayın. Siyah bir pencere
+   açılır ve birkaç saniye içinde tarayıcıda program açılır.
+4. İlk açılışta yönetici hesabınızı oluşturun. Kapatmak için siyah pencereyi kapatın.
+
+Windows "Bilgisayarınız korundu" uyarısı gösterirse **Ek bilgi → Yine de çalıştır**.
+Bu, dosyanın dijital imzasız olmasından kaynaklanan standart bir uyarıdır.
+
+* Veriler paket klasöründeki `veri\pzm.db` dosyasındadır. Yedek için bu dosyayı kopyalayın;
+  yeni sürüme geçerken `veri` klasörünü yeni pakete taşıyın.
+* Program yalnızca o bilgisayardan erişilebilir (`127.0.0.1`), ağa açılmaz.
+  8000 portu doluysa bir sonraki boş port otomatik seçilir.
+* Örnek verilerle denemek için **Ornek-Veri-Yukle.bat** (giriş: `demo` / `demo1234`).
+
+Paketi yeniden üretmek için: `python scripts/build_windows_package.py`
+(çıktı: `dist/ParaninZamanMaliyeti-Windows.zip`). GitHub'daki **Windows paketi**
+iş akışı her değişiklikte paketi üretir, gerçek bir Windows makinesinde açıp
+dener ve indirilebilir dosya olarak saklar.
+
+## 6.2 Kendi bilgisayarında kaynak koddan çalıştırma
 
 Gereken: Python 3.12 veya üstü.
 
@@ -15,6 +40,8 @@ pip install -r requirements.txt
 python -m app.demo
 
 uvicorn app.main:app --reload
+# veya tarayıcıyı otomatik açan başlatıcı:
+python -m app.launcher
 ```
 
 Tarayıcıda **http://localhost:8000** adresini açın. Veriler `data/pzm.db`
@@ -22,7 +49,7 @@ dosyasında kalıcı olarak saklanır.
 
 API belgesi: **http://localhost:8000/api/belgeler**
 
-## 6.2 İnternette yayınlama (Render.com)
+## 6.3 İnternette yayınlama (Render.com)
 
 Repo, [Render](https://render.com) için hazır bir tanım dosyası (`render.yaml`)
 içerir. Bu dosya bir web servisi ve bir PostgreSQL veritabanını birlikte kurar.
@@ -45,7 +72,7 @@ içerir. Bu dosya bir web servisi ve bir PostgreSQL veritabanını birlikte kura
   panelinden ücretli plana yükseltin (yazım tarihinde web servisi aylık ~7 $,
   veritabanı aylık ~6 $'dan başlar). Güncel fiyatları Render sitesinden kontrol edin.
 
-## 6.3 Başka bir sunucuda (Docker)
+## 6.4 Başka bir sunucuda (Docker)
 
 ```bash
 docker build -t pzm .
@@ -53,7 +80,7 @@ docker run -p 8000:8000 -v pzm-veri:/data pzm                       # SQLite, ka
 docker run -p 8000:8000 -e DATABASE_URL=postgresql://... pzm         # PostgreSQL
 ```
 
-## 6.4 Ortam değişkenleri
+## 6.5 Ortam değişkenleri
 
 | Değişken | Açıklama | Varsayılan |
 |---|---|---|
@@ -62,12 +89,12 @@ docker run -p 8000:8000 -e DATABASE_URL=postgresql://... pzm         # PostgreSQ
 | `PZM_KURULUM_ANAHTARI` | Tanımlıysa ilk yönetici hesabı bu anahtarla oluşturulabilir. İnternete açık kurulumlarda **mutlaka** tanımlayın. | Yok |
 | `PORT` | Docker içinde dinlenecek port | 8000 |
 
-## 6.5 Yedekleme
+## 6.6 Yedekleme
 
 * SQLite: `data/pzm.db` dosyasını kopyalamak yeterlidir.
 * PostgreSQL: `pg_dump` veya barındırma servisinin yedekleme özelliği.
 
-## 6.6 Testleri çalıştırma
+## 6.7 Testleri çalıştırma
 
 ```bash
 pip install -r requirements-dev.txt

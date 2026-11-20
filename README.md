@@ -1,6 +1,9 @@
+<p align="center"><img src="docs/ekranlar/decisora-logo.png" alt="Decisora Danışmanlık A.Ş." width="360"></p>
+
 # Paranın Zaman Maliyeti
 
-**Vadeli çek ve senet değerleme · Finansal karar destek sistemi**
+**Vadeli çek ve senet değerleme · Finansal karar destek sistemi**  
+Geliştiren ve sahibi: **Decisora Danışmanlık A.Ş.**
 
 > Gelecekte tahsil edeceğim belirli bir tutar, bugünün parasıyla gerçekte kaç TL değerindedir?
 
@@ -29,6 +32,10 @@ ekonomik değerleriyle görmesini ve buna göre karar vermesini sağlar.
 | ![](docs/ekranlar/pesin-vadeli.png) | ![](docs/ekranlar/rapor.png) |
 
 ## Hızlı başlangıç
+
+**Windows (kurulumsuz):** `ParaninZamanMaliyeti-Windows.zip` dosyasını bir klasöre çıkarın ve **Baslat.bat**'a çift tıklayın. Ayrıntılar: [docs/06-kurulum-ve-yayin.md](docs/06-kurulum-ve-yayin.md#61-windows-çift-tıkla-çalışan-paket-önerilen)
+
+**Kaynak koddan:**
 
 ```bash
 pip install -r requirements.txt

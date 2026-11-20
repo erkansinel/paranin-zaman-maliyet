@@ -1,0 +1,73 @@
+name: Windows paketi
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -q
+
+  paket:
+    needs: testler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/build_windows_package.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ParaninZamanMaliyeti-Windows
+          path: dist/ParaninZamanMaliyeti-Windows.zip
+          retention-days: 90
+
+  windows-dogrulama:
+    needs: paket
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ParaninZamanMaliyeti-Windows
+      - name: Paketi aç
+        shell: pwsh
+        run: Expand-Archive ParaninZamanMaliyeti-Windows.zip -DestinationPath C:\pzm
+      - name: Baslat.bat ile başlat ve uçtan uca dene
+        shell: pwsh
+        run: |
+          $dir = "C:\pzm\ParaninZamanMaliyeti"
+          $p = Start-Process -FilePath "$dir\Baslat.bat" -ArgumentList "--no-browser" -PassThru -WindowStyle Hidden `
+               -RedirectStandardOutput C:\pzm\out.log -RedirectStandardError C:\pzm\err.log
+          $ok = $false
+          for ($i = 0; $i -lt 60; $i++) {
+            try { $h = Invoke-RestMethod http://127.0.0.1:8000/api/saglik; if ($h.durum -eq "calisiyor") { $ok = $true; break } } catch {}
+            Start-Sleep -Seconds 1
+          }
+          Get-Content C:\pzm\out.log, C:\pzm\err.log -ErrorAction SilentlyContinue
+          if (-not $ok) { throw "Sunucu başlamadı" }
+
+          $s = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+          $body = @{ kullanici_adi = "erkan"; ad_soyad = "Erkan"; parola = "gizli-parola"; ilk_firma = "Alfa A.Ş." } | ConvertTo-Json
+          Invoke-RestMethod -Method Post http://127.0.0.1:8000/api/kurulum -Body ([Text.Encoding]::UTF8.GetBytes($body)) -ContentType "application/json; charset=utf-8" -WebSession $s | Out-Null
+          $vade = (Get-Date).ToUniversalTime().AddHours(3).Date.AddDays(240).ToString("yyyy-MM-dd")
+          $calc = @{ nominal = "1000000"; vade_tarihi = $vade; yillik_oran = "40" } | ConvertTo-Json
+          $r = Invoke-RestMethod -Method Post http://127.0.0.1:8000/api/hesap/deger -Body $calc -ContentType "application/json" -WebSession $s
+          Write-Host "Bugunku deger:" $r.sonuc.bugunku_deger
+          if ($r.sonuc.bugunku_deger -ne "801522.67") { throw "Hesap sonucu beklenenden farkli" }
+          $f = Invoke-RestMethod http://127.0.0.1:8000/api/firmalar -WebSession $s
+          Write-Host "Firma:" $f[0].ad
+          $html = Invoke-WebRequest http://127.0.0.1:8000/ -UseBasicParsing
+          if ($html.StatusCode -ne 200) { throw "Arayuz acilmadi" }
+          if (-not (Test-Path "$dir\veri\pzm.db")) { throw "Veritabani dosyasi olusmadi" }
+          Write-Host "Veritabani:" (Get-Item "$dir\veri\pzm.db").Length "bayt"
+          Write-Host "WINDOWS PAKETI DOGRULANDI"

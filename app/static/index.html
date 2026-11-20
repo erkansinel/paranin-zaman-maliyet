@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Paranın Zaman Maliyeti</title>
+  <title>Paranın Zaman Maliyeti · Decisora</title>
   <meta name="description" content="Vadeli çek ve senetlerin bugünkü ekonomik değerini hesaplayan finansal karar destek sistemi.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3E₺%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="/static/brand/favicon.png">
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/vendor/chart-4.4.4.umd.js"></script>
   <script src="/static/app.js"></script>
@@ -17,16 +17,17 @@
 <template x-if="!booting && !user">
   <div class="auth">
     <div class="auth-art">
-      <div class="brand" style="padding:0">
-        <div class="brand-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v15a6 6 0 0 0 6-6"/><path d="M6 10l7-3M6 14l7-3"/></svg></div>
-        <div><div class="brand-title">Paranın Zaman Maliyeti</div><div class="brand-sub">Vadeli evrak değerleme</div></div>
+      <div class="decisora on-dark">
+        <img src="/static/brand/decisora-amblem.png" alt="Decisora" class="decisora-emblem">
+        <div><div class="wordmark">Deci<span>sora</span></div><div class="wordmark-sub">DANIŞMANLIK A.Ş.</div></div>
       </div>
       <div style="position:relative; z-index:1">
+        <div class="app-kicker">Paranın Zaman Maliyeti</div>
         <h2>Gelecekteki tahsilatınız bugün kaç TL ediyor?</h2>
         <p>Çek ve senetlerinizi bugünkü ekonomik değerleriyle görün; iskonto oranlarını, peşin teklifleri ve portföyünüzün zaman maliyetini tek ekranda karşılaştırın.</p>
         <div class="formula">PV = FV ÷ (1 + r)<sup>d/365</sup></div>
       </div>
-      <div class="brand-sub" style="position:relative; z-index:1">Finansal karar destek sistemi</div>
+      <div class="brand-sub" style="position:relative; z-index:1">Vadeli evrak değerleme ve finansal karar destek sistemi · © Decisora Danışmanlık A.Ş.</div>
     </div>
     <div class="auth-form">
       <div class="card">
@@ -64,8 +65,8 @@
   <div class="scrim" x-show="menuOpen" @click="menuOpen=false"></div>
   <aside class="sidebar" :class="menuOpen && 'open'">
     <div class="brand">
-      <div class="brand-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v15a6 6 0 0 0 6-6"/><path d="M6 10l7-3M6 14l7-3"/></svg></div>
-      <div><div class="brand-title">Paranın Zaman<br>Maliyeti</div><div class="brand-sub">Vadeli evrak değerleme</div></div>
+      <img src="/static/brand/decisora-amblem.png" alt="Decisora" class="decisora-emblem sm">
+      <div><div class="brand-title">Paranın Zaman<br>Maliyeti</div><div class="brand-sub">Decisora Danışmanlık A.Ş.</div></div>
     </div>
     <div class="nav-label">Ana ekran</div>
     <template x-for="key in ['panel','hesap','portfoy','oran','pesin','rapor','ayar']" :key="key">
@@ -139,7 +140,7 @@
         <div class="grid g-3" style="margin-top:20px">
           <template x-for="k in ['hesap','portfoy','oran','pesin','rapor','ayar']" :key="k">
             <button class="card tile" @click="go(k)">
-              <div class="ic" :style="{hesap:'background:#eef0ff;color:#4f46e5',portfoy:'background:#e7f8f1;color:#059669',oran:'background:#fef5e6;color:#d97706',pesin:'background:#e0f2fe;color:#0284c7',rapor:'background:#f3e8ff;color:#7c3aed',ayar:'background:#f1f5f9;color:#475569'}[k]" x-html="icon(PAGES[k].icon)"></div>
+              <div class="ic" :style="{hesap:'background:#edf0f6;color:#404f6c',portfoy:'background:#e3f5f0;color:#1f9580',oran:'background:#fef5e6;color:#d97706',pesin:'background:#e6f2f3;color:#3f8f92',rapor:'background:#eef1f7;color:#5f7396',ayar:'background:#f1f5f9;color:#475569'}[k]" x-html="icon(PAGES[k].icon)"></div>
               <h4 x-text="PAGES[k].title"></h4>
               <p x-text="PAGES[k].sub"></p>
             </button>
@@ -473,7 +474,10 @@
                   <h2 style="font-size:24px; margin-top:4px" x-text="port.firma"></h2>
                   <div class="muted" x-text="'Değerleme tarihi: ' + fmtDate(port.degerleme_tarihi) + (port.senaryo_orani ? ' · Senaryo oranı: %' + prettyTR(port.senaryo_orani) : ' · Evrak bazında kayıtlı oranlar')"></div>
                 </div>
-                <div class="brand-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v15a6 6 0 0 0 6-6"/><path d="M6 10l7-3M6 14l7-3"/></svg></div>
+                <div class="decisora report-logo">
+                  <img src="/static/brand/decisora-amblem.png" alt="Decisora" class="decisora-emblem">
+                  <div><div class="wordmark">Deci<span>sora</span></div><div class="wordmark-sub">DANIŞMANLIK A.Ş.</div></div>
+                </div>
               </div>
               <div class="grid g-4" style="margin-top:20px">
                 <div><div class="muted" style="font-size:12px">Toplam nominal</div><div class="num" style="font-size:20px; font-weight:700" x-text="fmtTL(port.toplam_nominal)"></div></div>
@@ -521,7 +525,7 @@
                 <tfoot><tr><td colspan="3">Toplam</td><td class="r num" x-text="fmtTL(port.toplam_nominal)"></td><td colspan="3"></td><td class="r num" x-text="fmtTL(port.toplam_bugunku_deger)"></td><td class="r num" x-text="fmtTL(port.toplam_zaman_maliyeti)"></td></tr></tfoot>
               </table></div>
             </div>
-            <p class="faint" style="font-size:11.5px">Bu rapor, vadeli alacakların seçilen tarihteki bugünkü ekonomik değerini gösterir. Vadesi geçmiş veya bugün olan evraklar nominal değerle dikkate alınır. Hesaplamalar gerçek gün sayısı ve 365 günlük yıl esasına göre yapılmıştır.</p>
+            <p class="faint" style="font-size:11.5px">Bu rapor, vadeli alacakların seçilen tarihteki bugünkü ekonomik değerini gösterir. Vadesi geçmiş veya bugün olan evraklar nominal değerle dikkate alınır. Hesaplamalar gerçek gün sayısı ve 365 günlük yıl esasına göre yapılmıştır.<br>Hazırlayan: <b>Decisora Danışmanlık A.Ş.</b> · Paranın Zaman Maliyeti</p>
           </div>
         </template>
       </section>
