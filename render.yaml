@@ -1,0 +1,20 @@
+# Render.com "Blueprint" tanımı: repo bağlandığında web servisi ve PostgreSQL
+# veritabanını birlikte oluşturur. Ayrıntılar: docs/06-kurulum-ve-yayin.md
+services:
+  - type: web
+    name: paranin-zaman-maliyeti
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/saglik
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pzm-veritabani
+          property: connectionString
+      - key: PZM_KURULUM_ANAHTARI
+        sync: false   # Render kurulum sırasında sizden ister; ilk yönetici hesabı için gerekir
+
+databases:
+  - name: pzm-veritabani
+    plan: free
+    databaseName: pzm
