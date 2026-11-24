@@ -1,0 +1,3 @@
+# Windows toplu is dosyalari CRLF satir sonuyla oldugu gibi saklanir
+# (GitHub "raw" indirmesi de CRLF gelsin diye donusturme yapilmaz).
+*.bat -text

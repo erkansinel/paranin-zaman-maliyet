@@ -71,3 +71,49 @@ jobs:
           if (-not (Test-Path "$dir\veri\pzm.db")) { throw "Veritabani dosyasi olusmadi" }
           Write-Host "Veritabani:" (Get-Item "$dir\veri\pzm.db").Length "bayt"
           Write-Host "WINDOWS PAKETI DOGRULANDI"
+
+  kur-ve-calistir:
+    # Kur-ve-Calistir.bat'i gerçek Windows'ta dener: GitHub'dan indirme (zip ve git),
+    # taşınabilir Python, paket kurulumu, başlatma ve ikinci açılışta güncelleme.
+    runs-on: windows-latest
+    env:
+      PZM_DAL: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: Kur-ve-Calistir.bat
+          sparse-checkout-cone-mode: false
+      - name: Zip, git ve güncelleme senaryoları
+        shell: pwsh
+        run: |
+          Copy-Item Kur-ve-Calistir.bat C:\Kur-ve-Calistir.bat
+          function Dene($klasor, $gitYok, $ad) {
+            $env:PZM_KLASOR = $klasor
+            $env:PZM_GIT_KULLANMA = $gitYok
+            $log = "C:\$ad.log"
+            $p = Start-Process -FilePath C:\Kur-ve-Calistir.bat -ArgumentList "--no-browser" -PassThru -WindowStyle Hidden `
+                 -RedirectStandardOutput $log -RedirectStandardError "$log.err"
+            $ok = $false
+            for ($i = 0; $i -lt 600; $i++) {
+              try { $h = Invoke-RestMethod http://127.0.0.1:8000/api/saglik; if ($h.durum -eq "calisiyor") { $ok = $true; break } } catch {}
+              if ($p.HasExited) { break }
+              Start-Sleep -Seconds 1
+            }
+            Get-Content $log, "$log.err" -ErrorAction SilentlyContinue | Out-Host
+            if (-not $ok) { throw "$ad : sunucu başlamadı" }
+            if (-not (Test-Path "$klasor\veri\pzm.db")) { throw "$ad : veritabanı veri klasöründe oluşmadı" }
+            Write-Host "$ad : $(Get-Content $log | Select-String '\[1/4\]|\[2/4\]|\[3/4\]' | Out-String)"
+            Get-CimInstance Win32_Process -Filter "Name='python.exe'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 2
+            return (Get-Content $log -Raw)
+          }
+          Dene "C:\pzm-zip" "1" "zip-ilk" | Out-Null
+          if (-not (Test-Path "C:\pzm-zip\kaynak\app\launcher.py")) { throw "zip ile kaynak inmedi" }
+          $ikinci = Dene "C:\pzm-zip" "1" "zip-guncelleme"
+          if ($ikinci -notmatch "Paketler guncel") { throw "ikinci açılışta paketler yeniden kuruldu" }
+          if ($ikinci -notmatch "Python hazir") { throw "ikinci açılışta Python yeniden indi" }
+          Dene "C:\pzm-git" "0" "git-ilk" | Out-Null
+          if (-not (Test-Path "C:\pzm-git\kaynak\.git")) { throw "git ile klonlanmadı" }
+          Dene "C:\pzm-git" "0" "git-guncelleme" | Out-Null
+          Write-Host "KUR-VE-CALISTIR DOGRULANDI"

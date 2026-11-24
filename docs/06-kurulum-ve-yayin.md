@@ -1,6 +1,35 @@
 # 6. Kurulum ve Yayına Alma
 
-## 6.1 Windows: çift tıkla çalışan paket (önerilen)
+## 6.1 Windows: tek dosyayla GitHub'dan indir ve çalıştır (en kolay)
+
+Zip indirmek, klasör açmak ya da Python kurmak gerekmez; tek bir dosya yeterlidir
+ve her açılışta GitHub'daki **en son sürümü** kendisi indirir.
+
+1. [Kur-ve-Calistir.bat](https://github.com/erkansinel/paranin-zaman-maliyet/raw/main/Kur-ve-Calistir.bat)
+   bağlantısına tıklayın; dosya inmezse açılan sayfada sağ tıklayıp
+   **Farklı kaydet** deyin. Masaüstüne kaydedin.
+2. Dosyaya çift tıklayın. Windows "Bilgisayarınız korundu" derse **Ek bilgi → Yine de çalıştır**.
+3. İlk açılışta program ve taşınabilir Python indirilir, gerekli paketler kurulur
+   (internet hızına göre 1-3 dakika). Ardından tarayıcıda program açılır.
+4. Sonraki açılışlarda yalnızca yeni değişiklikler indirilir; birkaç saniyede açılır.
+   İnternet yoksa bilgisayardaki son sürümle açılır.
+
+Her şey `%USERPROFILE%\ParaninZamanMaliyeti` (ör. `C:\Users\Erkan\ParaninZamanMaliyeti`)
+klasörüne kurulur; bilgisayara sistem çapında bir şey kurulmaz:
+
+| Klasör | İçerik |
+|---|---|
+| `kaynak\` | GitHub'dan inen program kodu; her açılışta yenilenir |
+| `python\` | Taşınabilir Python 3.12 (yalnızca ilk açılışta iner) |
+| `veri\` | **Verileriniz** (`pzm.db`). Güncellemelerde silinmez; yedek için bu dosyayı kopyalayın |
+
+* Bilgisayarda Git kuruluysa kod Git ile, değilse zip olarak indirilir.
+* Programı kapatmak için siyah pencereyi kapatın.
+* Tamamen kaldırmak için `ParaninZamanMaliyeti` klasörünü silmeniz yeterlidir (önce `veri` klasörünü yedekleyin).
+* İleri kullanım: `PZM_KLASOR` ortam değişkeni kurulum klasörünü, `PZM_DAL` indirilecek
+  GitHub dalını değiştirir; `PZM_GIT_KULLANMA=1` Git kurulu olsa bile zip kullandırır.
+
+## 6.2 Windows: çift tıkla çalışan hazır paket (internetsiz kurulum)
 
 Kurulum ve Python gerektirmez.
 
@@ -25,7 +54,7 @@ Paketi yeniden üretmek için: `python scripts/build_windows_package.py`
 iş akışı her değişiklikte paketi üretir, gerçek bir Windows makinesinde açıp
 dener ve indirilebilir dosya olarak saklar.
 
-## 6.2 Kendi bilgisayarında kaynak koddan çalıştırma
+## 6.3 Kendi bilgisayarında kaynak koddan çalıştırma
 
 Gereken: Python 3.12 veya üstü.
 
@@ -49,7 +78,7 @@ dosyasında kalıcı olarak saklanır.
 
 API belgesi: **http://localhost:8000/api/belgeler**
 
-## 6.3 İnternette yayınlama (Render.com)
+## 6.4 İnternette yayınlama (Render.com)
 
 Repo, [Render](https://render.com) için hazır bir tanım dosyası (`render.yaml`)
 içerir. Bu dosya bir web servisi ve bir PostgreSQL veritabanını birlikte kurar.
@@ -72,7 +101,7 @@ içerir. Bu dosya bir web servisi ve bir PostgreSQL veritabanını birlikte kura
   panelinden ücretli plana yükseltin (yazım tarihinde web servisi aylık ~7 $,
   veritabanı aylık ~6 $'dan başlar). Güncel fiyatları Render sitesinden kontrol edin.
 
-## 6.4 Başka bir sunucuda (Docker)
+## 6.5 Başka bir sunucuda (Docker)
 
 ```bash
 docker build -t pzm .
@@ -80,7 +109,7 @@ docker run -p 8000:8000 -v pzm-veri:/data pzm                       # SQLite, ka
 docker run -p 8000:8000 -e DATABASE_URL=postgresql://... pzm         # PostgreSQL
 ```
 
-## 6.5 Ortam değişkenleri
+## 6.6 Ortam değişkenleri
 
 | Değişken | Açıklama | Varsayılan |
 |---|---|---|
@@ -89,12 +118,12 @@ docker run -p 8000:8000 -e DATABASE_URL=postgresql://... pzm         # PostgreSQ
 | `PZM_KURULUM_ANAHTARI` | Tanımlıysa ilk yönetici hesabı bu anahtarla oluşturulabilir. İnternete açık kurulumlarda **mutlaka** tanımlayın. | Yok |
 | `PORT` | Docker içinde dinlenecek port | 8000 |
 
-## 6.6 Yedekleme
+## 6.7 Yedekleme
 
 * SQLite: `data/pzm.db` dosyasını kopyalamak yeterlidir.
 * PostgreSQL: `pg_dump` veya barındırma servisinin yedekleme özelliği.
 
-## 6.7 Testleri çalıştırma
+## 6.8 Testleri çalıştırma
 
 ```bash
 pip install -r requirements-dev.txt
