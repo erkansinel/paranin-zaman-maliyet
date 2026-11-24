@@ -7,6 +7,8 @@ REM  Ayrintilar: docs/06-kurulum-ve-yayin.md
 setlocal
 set "PZM_BAT=%~f0"
 set "PZM_ARGS=%*"
+REM  PowerShell 7 icinden cagrilinca modul yolu karismasin
+set "PSModulePath="
 if defined PZM_ARAYUZSUZ (powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ([IO.File]::ReadAllText($env:PZM_BAT,[Text.Encoding]::UTF8))" & exit /b)
 start "" powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command "iex ([IO.File]::ReadAllText($env:PZM_BAT,[Text.Encoding]::UTF8))" & exit /b
 #>
@@ -320,7 +322,7 @@ try {
   # ------------------------------------------------------------ 3) Paketler
   $req = Join-Path $Kaynak 'requirements.txt'
   $kayitli = Join-Path $Klasor 'paketler.txt'
-  $guncel = (Test-Path $kayitli) -and ((Get-FileHash $req).Hash -eq (Get-FileHash $kayitli).Hash)
+  $guncel = (Test-Path $kayitli) -and ([IO.File]::ReadAllText($req) -eq [IO.File]::ReadAllText($kayitli))
   if ($guncel) {
     Durum 'Paketler güncel' '' 3; Ilerleme 1
   } else {
