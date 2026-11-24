@@ -144,7 +144,13 @@ jobs:
             $bmp = New-Object Drawing.Bitmap $b.Width, $b.Height
             $g = [Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Location, [Drawing.Point]::Empty, $b.Size)
             New-Item -ItemType Directory -Force C:\ekran | Out-Null
-            $bmp.Save("C:\ekran\$ad.png"); $g.Dispose(); $bmp.Dispose()
+            $bmp.Save("C:\ekran\$ad.png")
+            # Pencere bölgesini (ekran ortası) küçük JPEG olarak günlüğe de yaz
+            $w = [Math]::Min(820, $b.Width); $h = [Math]::Min(520, $b.Height)
+            $kes = $bmp.Clone((New-Object Drawing.Rectangle ([int](($b.Width - $w) / 2)), ([int](($b.Height - $h) / 2)), $w, $h), $bmp.PixelFormat)
+            $ms = New-Object IO.MemoryStream; $kes.Save($ms, [Drawing.Imaging.ImageFormat]::Jpeg)
+            Write-Host "EKRAN-BASLA $ad"; [Convert]::ToBase64String($ms.ToArray()) -split '(.{1000})' | Where-Object { $_ } | ForEach-Object { Write-Host "EKRAN $_" }; Write-Host "EKRAN-BITTI $ad"
+            $kes.Dispose(); $g.Dispose(); $bmp.Dispose()
           }
           Start-Process -FilePath C:\Kur-ve-Calistir.bat -ArgumentList "--no-browser"
           Start-Sleep -Seconds 2; Ekran "1-kurulum"
@@ -154,11 +160,14 @@ jobs:
             Start-Sleep -Seconds 1
           }
           Start-Sleep -Seconds 2; Ekran "2-calisiyor"
+          if (-not $ok) { Get-Content C:\pzm-zip\kurulum.log -Encoding utf8 | Out-Host; throw "Pencereli başlatmada sunucu başlamadı" }
+          $lnk = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Paranın Zaman Maliyeti.lnk'
+          for ($i = 0; $i -lt 30 -and -not (Test-Path $lnk); $i++) { Start-Sleep -Seconds 1 }
           Get-Content C:\pzm-zip\kurulum.log -Encoding utf8 | Out-Host
-          if (-not $ok) { throw "Pencereli başlatmada sunucu başlamadı" }
-          if (-not (Test-Path "$([Environment]::GetFolderPath('Desktop'))\Paranın Zaman Maliyeti.lnk")) { throw "Masaüstü kısayolu oluşmadı" }
+          Get-ChildItem ([Environment]::GetFolderPath('Desktop')) | Out-Host
+          if (-not (Test-Path $lnk)) { throw "Masaüstü kısayolu oluşmadı" }
           # Kısayol ile ikinci açılış: program zaten çalıştığı için yeni sunucu açmamalı
-          Start-Process "$([Environment]::GetFolderPath('Desktop'))\Paranın Zaman Maliyeti.lnk"
+          Start-Process $lnk
           Start-Sleep -Seconds 6; Ekran "3-kisayol"
           $n = @(Get-CimInstance Win32_Process -Filter "Name='python.exe'").Count
           Write-Host "Calisan python sayisi: $n"
