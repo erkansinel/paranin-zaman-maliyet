@@ -33,7 +33,9 @@ ekonomik değerleriyle görmesini ve buna göre karar vermesini sağlar.
 
 ## Hızlı başlangıç
 
-**Windows (kurulumsuz):** `ParaninZamanMaliyeti-Windows.zip` dosyasını bir klasöre çıkarın ve **Baslat.bat**'a çift tıklayın. Ayrıntılar: [docs/06-kurulum-ve-yayin.md](docs/06-kurulum-ve-yayin.md#61-windows-çift-tıkla-çalışan-paket-önerilen)
+**Windows (en kolay):** [Kur-ve-Calistir.bat](https://github.com/erkansinel/paranin-zaman-maliyet/raw/main/Kur-ve-Calistir.bat) dosyasını indirip çift tıklayın. GitHub'daki son sürümü indirir, gerekenleri kurar ve programı tarayıcıda açar; her açılışta kendini günceller. Ayrıntılar: [docs/06-kurulum-ve-yayin.md](docs/06-kurulum-ve-yayin.md#61-windows-tek-dosyayla-githubdan-indir-ve-çalıştır-en-kolay)
+
+**Windows (internetsiz hazır paket):** `ParaninZamanMaliyeti-Windows.zip` dosyasını bir klasöre çıkarın ve **Baslat.bat**'a çift tıklayın. Ayrıntılar: [docs/06-kurulum-ve-yayin.md](docs/06-kurulum-ve-yayin.md#62-windows-çift-tıkla-çalışan-hazır-paket-internetsiz-kurulum)
 
 **Kaynak koddan:**
 
