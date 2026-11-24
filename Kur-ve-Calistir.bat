@@ -375,8 +375,10 @@ try {
       $yerler = @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))
       foreach ($yer in $yerler) {
         if (-not $yer) { continue }
+        # WScript.Shell yalnızca ANSI dosya adı kabul eder: ASCII adla oluşturup Türkçe adla yeniden adlandır
         $lnk = Join-Path $yer "$Urun.lnk"
-        $k = $wsh.CreateShortcut($lnk)
+        $gec = Join-Path $yer 'PZM-kisayol.lnk'
+        $k = $wsh.CreateShortcut($gec)
         $k.TargetPath = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
         $k.Arguments = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command `"$komut`""
         $k.WorkingDirectory = $Klasor
@@ -384,6 +386,8 @@ try {
         $k.Description = "$Urun · $Sirket"
         if (Test-Path $ikon) { $k.IconLocation = "$ikon,0" }
         $k.Save()
+        Remove-Item -Force -ErrorAction SilentlyContinue $lnk, (Join-Path $yer 'Paranin Zaman Maliyeti.lnk')
+        Move-Item -Force $gec $lnk
       }
     } catch { Gunluk "kısayol oluşturulamadı: $_" }
   }
