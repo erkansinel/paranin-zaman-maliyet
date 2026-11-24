@@ -7,27 +7,36 @@ ve her açılışta GitHub'daki **en son sürümü** kendisi indirir.
 
 1. [Kur-ve-Calistir.bat](https://github.com/erkansinel/paranin-zaman-maliyet/raw/main/Kur-ve-Calistir.bat)
    bağlantısına tıklayın; dosya inmezse açılan sayfada sağ tıklayıp
-   **Farklı kaydet** deyin. Masaüstüne kaydedin.
+   **Farklı kaydet** deyin.
 2. Dosyaya çift tıklayın. Windows "Bilgisayarınız korundu" derse **Ek bilgi → Yine de çalıştır**.
-3. İlk açılışta program ve taşınabilir Python indirilir, gerekli paketler kurulur
-   (internet hızına göre 1-3 dakika). Ardından tarayıcıda program açılır.
-4. Sonraki açılışlarda yalnızca yeni değişiklikler indirilir; birkaç saniyede açılır.
-   İnternet yoksa bilgisayardaki son sürümle açılır.
+3. Decisora logolu bir kurulum penceresi açılır; adımlar ve ilerleme çubuğu bu pencerede
+   görünür. İlk açılışta program ve taşınabilir Python indirilir, gerekli bileşenler kurulur
+   (internet hızına göre 1-3 dakika). Ardından program tarayıcıda açılır.
+4. İlk açılıştan sonra **masaüstünde ve Başlat menüsünde "Paranın Zaman Maliyeti"** kısayolu
+   oluşur. Sonraki açılışlarda bu kısayolu kullanın; yalnızca yeni değişiklikler indirilir ve
+   program birkaç saniyede açılır. İnternet yoksa bilgisayardaki son sürümle açılır.
+
+Program çalışırken pencerede **Programı aç**, **Veri klasörü** ve **Kapat** düğmeleri bulunur.
+Pencereyi küçültürseniz saatin yanındaki bildirim alanına iner ve program arka planda çalışmaya
+devam eder; pencereyi kapattığınızda program da kapanır. Program zaten açıkken kısayola
+tekrar tıklarsanız yeni bir kopya başlatılmaz, açık olan tarayıcıda gösterilir.
 
 Her şey `%USERPROFILE%\ParaninZamanMaliyeti` (ör. `C:\Users\Erkan\ParaninZamanMaliyeti`)
 klasörüne kurulur; bilgisayara sistem çapında bir şey kurulmaz:
 
-| Klasör | İçerik |
+| Klasör / dosya | İçerik |
 |---|---|
 | `kaynak\` | GitHub'dan inen program kodu; her açılışta yenilenir |
 | `python\` | Taşınabilir Python 3.12 (yalnızca ilk açılışta iner) |
 | `veri\` | **Verileriniz** (`pzm.db`). Güncellemelerde silinmez; yedek için bu dosyayı kopyalayın |
+| `kurulum.log`, `sunucu.log` | Sorun olursa pencerede **Ayrıntıları göster** ile açılan günlükler |
 
 * Bilgisayarda Git kuruluysa kod Git ile, değilse zip olarak indirilir.
-* Programı kapatmak için siyah pencereyi kapatın.
-* Tamamen kaldırmak için `ParaninZamanMaliyeti` klasörünü silmeniz yeterlidir (önce `veri` klasörünü yedekleyin).
+* Tamamen kaldırmak için kısayolları ve `ParaninZamanMaliyeti` klasörünü silmeniz yeterlidir
+  (önce `veri` klasörünü yedekleyin).
 * İleri kullanım: `PZM_KLASOR` ortam değişkeni kurulum klasörünü, `PZM_DAL` indirilecek
-  GitHub dalını değiştirir; `PZM_GIT_KULLANMA=1` Git kurulu olsa bile zip kullandırır.
+  GitHub dalını değiştirir; `PZM_GIT_KULLANMA=1` Git kurulu olsa bile zip kullandırır;
+  `PZM_ARAYUZSUZ=1` pencere açmadan konsolda çalıştırır (otomatik testler için).
 
 ## 6.2 Windows: çift tıkla çalışan hazır paket (internetsiz kurulum)
 

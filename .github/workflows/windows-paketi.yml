@@ -73,8 +73,9 @@ jobs:
           Write-Host "WINDOWS PAKETI DOGRULANDI"
 
   kur-ve-calistir:
-    # Kur-ve-Calistir.bat'i gerçek Windows'ta dener: GitHub'dan indirme (zip ve git),
-    # taşınabilir Python, paket kurulumu, başlatma ve ikinci açılışta güncelleme.
+    # Kur-ve-Calistir.bat'i gerçek Windows'ta dener: PowerShell sözdizimi, GitHub'dan
+    # indirme (zip ve git), taşınabilir Python, paket kurulumu, başlatma, ikinci açılışta
+    # güncelleme ve logolu kurulum penceresi (ekran görüntüsü yapıt olarak saklanır).
     runs-on: windows-latest
     env:
       PZM_DAL: ${{ github.head_ref || github.ref_name }}
@@ -83,10 +84,21 @@ jobs:
         with:
           sparse-checkout: Kur-ve-Calistir.bat
           sparse-checkout-cone-mode: false
-      - name: Zip, git ve güncelleme senaryoları
+      - name: PowerShell sözdizimi (Windows PowerShell 5.1)
+        shell: powershell
+        run: |
+          $kod = [IO.File]::ReadAllText("$PWD\Kur-ve-Calistir.bat", [Text.Encoding]::UTF8)
+          $hatalar = $null
+          [void][Management.Automation.Language.Parser]::ParseInput($kod, [ref]$null, [ref]$hatalar)
+          if ($hatalar) { $hatalar | Format-List | Out-String | Write-Host; throw "Sozdizimi hatasi" }
+          $ilk = [IO.File]::ReadAllBytes("$PWD\Kur-ve-Calistir.bat")[0..2]
+          if ($ilk[0] -eq 0xEF) { throw "Dosya BOM ile baslamamali" }
+          Write-Host "Sozdizimi temiz"
+      - name: Zip, git ve güncelleme senaryoları (pencere olmadan)
         shell: pwsh
         run: |
           Copy-Item Kur-ve-Calistir.bat C:\Kur-ve-Calistir.bat
+          $env:PZM_ARAYUZSUZ = "1"
           function Dene($klasor, $gitYok, $ad) {
             $env:PZM_KLASOR = $klasor
             $env:PZM_GIT_KULLANMA = $gitYok
@@ -99,21 +111,63 @@ jobs:
               if ($p.HasExited) { break }
               Start-Sleep -Seconds 1
             }
+            $kurulum = Get-Content "$klasor\kurulum.log" -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+            Write-Host "----- $ad -----"
+            Write-Host $kurulum
             Get-Content $log, "$log.err" -ErrorAction SilentlyContinue | Out-Host
             if (-not $ok) { throw "$ad : sunucu başlamadı" }
             if (-not (Test-Path "$klasor\veri\pzm.db")) { throw "$ad : veritabanı veri klasöründe oluşmadı" }
-            Write-Host "$ad : $(Get-Content $log | Select-String '\[1/4\]|\[2/4\]|\[3/4\]' | Out-String)"
             Get-CimInstance Win32_Process -Filter "Name='python.exe'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Start-Sleep -Seconds 2
-            return (Get-Content $log -Raw)
+            return $kurulum
           }
           Dene "C:\pzm-zip" "1" "zip-ilk" | Out-Null
           if (-not (Test-Path "C:\pzm-zip\kaynak\app\launcher.py")) { throw "zip ile kaynak inmedi" }
+          if (-not (Test-Path "C:\pzm-zip\Kur-ve-Calistir.bat")) { throw "bat kurulum klasörüne kopyalanmadı" }
           $ikinci = Dene "C:\pzm-zip" "1" "zip-guncelleme"
-          if ($ikinci -notmatch "Paketler guncel") { throw "ikinci açılışta paketler yeniden kuruldu" }
-          if ($ikinci -notmatch "Python hazir") { throw "ikinci açılışta Python yeniden indi" }
+          if ($ikinci -notmatch "Paketler güncel") { throw "ikinci açılışta paketler yeniden kuruldu" }
+          if ($ikinci -notmatch "Python hazır") { throw "ikinci açılışta Python yeniden indi" }
           Dene "C:\pzm-git" "0" "git-ilk" | Out-Null
           if (-not (Test-Path "C:\pzm-git\kaynak\.git")) { throw "git ile klonlanmadı" }
           Dene "C:\pzm-git" "0" "git-guncelleme" | Out-Null
           Write-Host "KUR-VE-CALISTIR DOGRULANDI"
+      - name: Kurulum penceresi (ekran görüntüsü)
+        shell: pwsh
+        run: |
+          Remove-Item Env:PZM_ARAYUZSUZ -ErrorAction SilentlyContinue
+          $env:PZM_KLASOR = "C:\pzm-zip"
+          $env:PZM_GIT_KULLANMA = "1"
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          function Ekran($ad) {
+            $b = [Windows.Forms.Screen]::PrimaryScreen.Bounds
+            $bmp = New-Object Drawing.Bitmap $b.Width, $b.Height
+            $g = [Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Location, [Drawing.Point]::Empty, $b.Size)
+            New-Item -ItemType Directory -Force C:\ekran | Out-Null
+            $bmp.Save("C:\ekran\$ad.png"); $g.Dispose(); $bmp.Dispose()
+          }
+          Start-Process -FilePath C:\Kur-ve-Calistir.bat -ArgumentList "--no-browser"
+          Start-Sleep -Seconds 2; Ekran "1-kurulum"
+          $ok = $false
+          for ($i = 0; $i -lt 180; $i++) {
+            try { $h = Invoke-RestMethod http://127.0.0.1:8000/api/saglik; if ($h.durum -eq "calisiyor") { $ok = $true; break } } catch {}
+            Start-Sleep -Seconds 1
+          }
+          Start-Sleep -Seconds 2; Ekran "2-calisiyor"
+          Get-Content C:\pzm-zip\kurulum.log -Encoding utf8 | Out-Host
+          if (-not $ok) { throw "Pencereli başlatmada sunucu başlamadı" }
+          if (-not (Test-Path "$([Environment]::GetFolderPath('Desktop'))\Paranın Zaman Maliyeti.lnk")) { throw "Masaüstü kısayolu oluşmadı" }
+          # Kısayol ile ikinci açılış: program zaten çalıştığı için yeni sunucu açmamalı
+          Start-Process "$([Environment]::GetFolderPath('Desktop'))\Paranın Zaman Maliyeti.lnk"
+          Start-Sleep -Seconds 6; Ekran "3-kisayol"
+          $n = @(Get-CimInstance Win32_Process -Filter "Name='python.exe'").Count
+          Write-Host "Calisan python sayisi: $n"
+          if ($n -ne 1) { throw "Kısayol ikinci bir sunucu başlattı" }
+          Get-CimInstance Win32_Process -Filter "Name='python.exe'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+          Write-Host "PENCERE DOGRULANDI"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kurulum-penceresi-ekran
+          path: C:\ekran
+          retention-days: 14

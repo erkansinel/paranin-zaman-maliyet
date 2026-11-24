@@ -31,6 +31,7 @@
     </div>
     <div class="auth-form">
       <div class="card">
+        <img src="/static/brand/decisora-logo.png" alt="Decisora Danışmanlık A.Ş." class="auth-logo">
         <template x-if="needsSetup">
           <form @submit.prevent="doSetup()">
             <h3 style="font-size:20px; margin-bottom:6px">İlk kurulum</h3>
@@ -474,10 +475,7 @@
                   <h2 style="font-size:24px; margin-top:4px" x-text="port.firma"></h2>
                   <div class="muted" x-text="'Değerleme tarihi: ' + fmtDate(port.degerleme_tarihi) + (port.senaryo_orani ? ' · Senaryo oranı: %' + prettyTR(port.senaryo_orani) : ' · Evrak bazında kayıtlı oranlar')"></div>
                 </div>
-                <div class="decisora report-logo">
-                  <img src="/static/brand/decisora-amblem.png" alt="Decisora" class="decisora-emblem">
-                  <div><div class="wordmark">Deci<span>sora</span></div><div class="wordmark-sub">DANIŞMANLIK A.Ş.</div></div>
-                </div>
+                <img src="/static/brand/decisora-logo.png" alt="Decisora Danışmanlık A.Ş." class="report-logo-img">
               </div>
               <div class="grid g-4" style="margin-top:20px">
                 <div><div class="muted" style="font-size:12px">Toplam nominal</div><div class="num" style="font-size:20px; font-weight:700" x-text="fmtTL(port.toplam_nominal)"></div></div>

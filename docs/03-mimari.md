@@ -105,8 +105,11 @@ oturum (token_hash, user_id, expires_at)
 
 ## 3.6 Kurumsal kimlik
 
-Uygulama **Decisora Danışmanlık A.Ş.** kimliğiyle yayınlanır. Logo amblemi
-`app/static/brand/` klasöründedir (şeffaf PNG, favicon dahil). Kurum adı
+Uygulama **Decisora Danışmanlık A.Ş.** kimliğiyle yayınlanır. Şirketin özgün
+logosundan üretilen dosyalar `app/static/brand/` klasöründedir: tam logo
+(`decisora-logo.png`, giriş kartı ve rapor başlığı), amblem (`decisora-amblem*.png`,
+yan menü), `favicon.png` ve Windows kısayol simgesi `pzm.ico`. Kurulum penceresi
+(`Kur-ve-Calistir.bat`) da aynı amblemi ve şirket adını gösterir. Kurum adı
 giriş ekranında, yan menüde, rapor başlığında, yazdırma / PDF çıktısında ve
 CSV dosyasının ilk satırında yer alır (CSV için `app/api/documents.py`
 içindeki `HAZIRLAYAN` sabiti). Tema renkleri logodan alınmıştır:
